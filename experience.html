@@ -9,6 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
+
+    #site-wrapper {
+        transform: scale(0.8); /* 80% */
+        transform-origin: top left; /* scale from top-left corner */
+        width: 125%; /* inverse of scale to avoid horizontal cutoff */
+        }
     :root { --text-main:#111; --text-muted:#555; --max-width:1100px; --border-light:#e5e5e5; }
     * { box-sizing: border-box; }
     body { margin:0; font-family:'Source Serif 4', serif; font-size:22px; line-height:1.6; color:var(--text-main); background:#fff; }
@@ -61,67 +67,71 @@
 </head>
 
 <body>
-  <header>
-    <h1>Daniel Apolonio</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="experience.html">Experience</a>
-      <a href="projects.html">Projects</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="videos.html">Videos</a>
-      <a href="documents/Daniel_Apolonio_Music_Resume.pdf" target="_blank">CV</a>
-    </nav>
-  </header>
+  <div id="site-wrapper">
+    <header>
+      <h1>Daniel Apolonio</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="experience.html">Experience</a>
+        <a href="projects.html">Projects</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="videos.html">Videos</a>
+        <a href="documents/Daniel_Apolonio_Music_Resume.pdf" target="_blank">CV</a>
+      </nav>
+    </header>
 
-  <main>
-    <h2>Professional Experience</h2>
+    <main>
+      <h2>Professional Experience</h2>
 
-    <hr class="divider">
+      <hr class="divider">
 
-    <div class="experience-block">
-      <div class="experience-text">
-        <h3>Freelance Violinist & Violist</h3>
-        <div class="experience-role">Performing · Teaching · Collaboration</div>
-        <p>Substitute musician with the Las Vegas Philharmonic, Pacific, New World, Santa Barbara, and Culver City Symphonies. Active freelance violin and violist for weddings and events. Studio recording contributions can be heard on Spotify and Apple Music.</p>
+      <div class="experience-block">
+        <div class="experience-text">
+          <h3>Freelance Violinist & Violist</h3>
+          <div class="experience-role">Performing · Teaching · Collaboration</div>
+          <p>Substitute musician with the Las Vegas Philharmonic, Pacific, New World, Santa Barbara, and Culver City Symphonies. Active freelance violin and violist for weddings and events. Studio recording contributions can be heard on Spotify and Apple Music.</p>
+        </div>
+        <div class="experience-image"><img src="images/violin.jpg" alt="Violin performance"></div>
       </div>
-      <div class="experience-image"><img src="images/violin.jpg" alt="Violin performance"></div>
-    </div>
 
-    <hr class="divider">
+      <hr class="divider">
 
-    <div class="experience-block">
-      <div class="experience-text">
-        <h3><a href="https://viennamusicinstitute.com/" target="_blank">Vienna Music Institute</a></h3>
-        <div class="experience-role">Violin Faculty · August 2024 – Present</div>
-        <p>Violin instructor working with students from ages 7-18, ranging from complete beginners to advanced levels. Lessons are customized to individual learning styles and inspiring students to enjoy music.</p>
+      <div class="experience-block">
+        <div class="experience-text">
+          <h3><a href="https://viennamusicinstitute.com/" target="_blank">Vienna Music Institute</a></h3>
+          <div class="experience-role">Violin Faculty · August 2024 – Present</div>
+          <p>Violin instructor working with students from ages 7-18, ranging from complete beginners to advanced levels. Lessons are customized to individual learning styles and inspiring students to enjoy music.</p>
+        </div>
+        <div class="experience-image"><img src="images/vmi.png" alt="Vienna Music Institute logo"></div>
       </div>
-      <div class="experience-image"><img src="images/vmi.png" alt="Vienna Music Institute logo"></div>
-    </div>
 
-    
-    <div class="experience-block">
-      <div class="experience-text">
-        <h3><a href="https://www.genkoreanbbq.com/" target="_blank">GEN Korean BBQ (NYC)</a></h3>
-        <div class="experience-role">Bartender / Cashier · Summer 2023</div>
-        <p>Worked in a fast-paced Manhattan restaurant environment handling customer payments, beverage service, and daily sales reporting for the whole restaurant.</p>
+      
+      <div class="experience-block">
+        <div class="experience-text">
+          <h3><a href="https://www.genkoreanbbq.com/" target="_blank">GEN Korean BBQ (NYC)</a></h3>
+          <div class="experience-role">Bartender / Cashier · Summer 2023</div>
+          <p>Worked in a fast-paced Manhattan restaurant environment handling customer payments, beverage service, and daily sales reporting for the whole restaurant.</p>
+        </div>
+        <div class="experience-image"><img src="images/gen.png" alt="GEN Korean BBQ logo"></div>
       </div>
-      <div class="experience-image"><img src="images/gen.png" alt="GEN Korean BBQ logo"></div>
-    </div>
 
-    <div class="experience-block">
-      <div class="experience-text">
-        <h3><a href="https://www.genkoreanbbq.com/" target="_blank">Credentials</a></h3>
-        <p>New York University, B.M. Violin Performance & minor in Web Programming and Applications (2024)</p>
-        <p>Orange County School of the Arts, High School Diploma (2020)</p>
-        <p>Class C Driver’s License (2020)</p>
+      <div class="experience-block">
+        <div class="experience-text">
+          <h3><a href="https://www.genkoreanbbq.com/" target="_blank">Credentials</a></h3>
+          <p>New York University, B.M. Violin Performance & minor in Web Programming and Applications (2024)</p>
+          <p>Orange County School of the Arts, High School Diploma (2020)</p>
+          <p>Class C Driver’s License (2020)</p>
+        </div>
+        
       </div>
       
-    </div>
-    
-  </main>
+    </main>
 
-  <footer>
-    © 2025 Daniel Apolonio
-  </footer>
+    <footer>
+      © 2025 Daniel Apolonio
+    </footer>
+
+  </div>
+  
 </body>
 </html>

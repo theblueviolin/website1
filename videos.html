@@ -9,6 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    #site-wrapper {
+        transform: scale(0.8); /* 80% */
+        transform-origin: top left; /* scale from top-left corner */
+        width: 125%; /* inverse of scale to avoid horizontal cutoff */
+        }
     :root {
       --ink: #111;
       --muted: #555;
@@ -26,7 +31,6 @@
       line-height: 1.6;
     }
 
-    /* ===== HEADER / NAV ===== */
     header {
       max-width: var(--max-width);
       margin: 60px auto 40px;
@@ -34,11 +38,7 @@
       text-align: center;
     }
 
-    header h1 {
-      font-size: 64px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+    header h1 { font-size: 64px; font-weight: 600; margin-bottom: 20px; }
 
     nav {
       display: flex;
@@ -47,15 +47,9 @@
       font-family: 'Inter', sans-serif;
     }
 
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 20px;
-    }
-
+    nav a { color: var(--muted); text-decoration: none; font-size: 20px; }
     nav a:hover { color: #000; }
 
-    /* ===== MAIN ===== */
     main {
       max-width: var(--max-width);
       margin: auto;
@@ -64,15 +58,13 @@
       justify-content: center;
     }
 
-    /* ===== VIDEO FRAME ===== */
     .iphone-frame {
       position: relative;
-      width: 360px;  /* shrunk half-size */
+      width: 360px;
       height: 480px;
       border-radius: 36px;
       overflow: hidden;
-      background: #000;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      background: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -80,18 +72,18 @@
 
     .slide {
       position: absolute;
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* preserves original aspect ratio */
+      width: 100%;
+      height: 100%;
       opacity: 0;
       transition: opacity 0.5s ease;
+      pointer-events: none; /* prevent accidental clicks on hidden slides */
     }
 
     .slide.active {
       opacity: 1;
+      pointer-events: auto;
     }
 
-    /* ===== ARROWS ===== */
     .gallery-arrows {
       position: absolute;
       bottom: 12px;
@@ -119,73 +111,67 @@
 
     @media (max-width: 900px) {
       header h1 { font-size: 48px; }
+      .iphone-frame { width: 280px; height: 373px; }
     }
   </style>
 </head>
 
 <body>
+    <div id="site-wrapper">
+        <header>
+        <h1>Videos</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="experience.html">Experience</a>
+            <a href="projects.html">Projects</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="videos.html">Videos</a>
+            <a href="documents/Daniel_Apolonio_Music_Resume.pdf" target="_blank">CV</a>
+        </nav>
+        </header>
 
-<header>
-  <h1>Videos</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="experience.html">Experience</a>
-    <a href="projects.html">Projects</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="videos.html">Videos</a>
-    <a href="documents/Daniel_Apolonio_Music_Resume.pdf" target="_blank">CV</a>
-  </nav>
-</header>
+        <main>
+        <div class="iphone-frame">
+            <!-- YouTube video slides -->
+            <iframe class="slide active" src="https://www.youtube.com/embed/9L70yGtgdHw?autoplay=0&rel=0" title="Video 5" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="slide" src="https://www.youtube.com/embed/SYrZa0ED1sI?autoplay=0&rel=0" title="Video X" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="slide" src="https://www.youtube.com/embed/QLoRUKnVYpg?autoplay=0&rel=0" title="Video 1" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="slide" src="https://www.youtube.com/embed/pTNHYBLwWk4?autoplay=0&rel=0" title="Video 2" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="slide" src="https://www.youtube.com/embed/zIjTfi_NcCg?autoplay=0&rel=0" title="Video 3" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="slide" src="https://www.youtube.com/embed/PQjeKzHxVVs?autoplay=0&rel=0" title="Video 4" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<main>
-  <div class="iphone-frame">
-    <!-- <video src="/images/violin/brahms.mp4" class="slide active" playsinline></video>
-    <video src="/images/violin/pov1.mov" class="slide active" playsinline></video>
-    <video src="/images/violin/pov2.mov" class="slide" playsinline></video>
-    <video src="/images/violin/pov3.mov" class="slide" playsinline></video>
-    <video src="/images/violin/pov4.mov" class="slide" playsinline></video>
-    <video src="/images/violin/pov5.mov" class="slide" playsinline></video> -->
+            <!-- Gallery navigation arrows -->
+            <div class="gallery-arrows">
+            <button id="prev">&#10094;</button>
+            <button id="next">&#10095;</button>
+            </div>
+        </div>
+        </main>
+</div>
 
-    <div class="gallery-arrows">
-      <button id="prev">&#10094;</button>
-      <button id="next">&#10095;</button>
-    </div>
-  </div>
-</main>
+
 
 <script>
-    const slides = document.querySelectorAll(".slide");
-    const next = document.getElementById("next");
-    const prev = document.getElementById("prev");
-    let current = 0;
-  
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-        slide.pause();           // pause all
-        slide.currentTime = 0;   // reset time
-      });
-      const activeVideo = slides[index];
-      activeVideo.play().catch(() => {
-        // Autoplay might fail due to browser restrictions
-        console.log("User interaction required to play video");
-      });
-      current = index;
-    }
-  
-    next.onclick = () => { showSlide((current + 1) % slides.length); };
-    prev.onclick = () => { showSlide((current - 1 + slides.length) % slides.length); };
-  
-    // Play the first video after page loads
-    window.addEventListener('load', () => {
-      const firstVideo = slides[0];
-      firstVideo.play().catch(() => {
-        // Some browsers require a user interaction
-        console.log("Click anywhere or press next to start video with sound");
-      });
+  const slides = document.querySelectorAll(".slide");
+  const next = document.getElementById("next");
+  const prev = document.getElementById("prev");
+  let current = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+      // Stop video by resetting src
+      if(i !== index){
+        const src = slide.src;
+        slide.src = src; // reload iframe to stop video
+      }
     });
-  </script>
-  
+    current = index;
+  }
+
+  next.onclick = () => showSlide((current + 1) % slides.length);
+  prev.onclick = () => showSlide((current - 1 + slides.length) % slides.length);
+</script>
 
 </body>
 </html>

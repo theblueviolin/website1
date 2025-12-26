@@ -1,40 +1,269 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Pokemon Game Macro 3</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div id="left">
-            <img id="background" src="images/environment_forestbackground.png">
-            <img class="grass" id="grass1" src="images/grass.png">
-            <img class="grass" id="grass2" src="images/grass.png">
-            <img class="grass" id="grass3" src="images/grass.png">
-        </div>
-        <div id="right">
-            <h1>Gotta Catch 'em All!</h1>
-            <p>Your goal in this game is to earn as many Pokeballs as possible while catching a variety of Pokemon along the way. 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pokemon Game Macro 3</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 
-            <br><br> To play simply click on one of the three grass clumps in the forest. Behind one of those grass clumps is a Pokemon that can be caught. Behind another grass clump are two free Pokeballs that you can use to try again, and behind the last grass clump is nothing. 
-            <br><br> It won't happen every round, but sometimes you can encounter a "super" Pokemon. Additionally, you can click a button that appears after each round to display the result history of the current game. 
-            <br><br>If you choose to start over, click play again to begin a new game. The result history and pokemon caught will be cleared, and you will restarted with 5 Pokeballs.</p>
-            <h2 id="supermode"> </h3>
-            <h3 id="status">Click a grass</h2>
+    #directions {
+        max-width: 10000px;
+        background-color: #ffffffdd;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1.1em;
+        line-height: 1.4;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+    }
 
-            <div id="pokemon_caught_div">Caught: 0</div>
-            <div id="pokeballs_left_div">Pokeballs: 5</div>
-            <!-- <div id="amtPokeballsCollected"> </div> -->
-            <!-- <div id="amtFoundNothing"> </div> -->
-            <div id="amtPokemon"> </div>
-            <div id="yellow"> </div>
+    #game-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        max-width: 1200px;
+        flex-wrap: wrap;
+    }
 
-            <button id="play_again_button" style="display: none;">Play Again!</button>
-            <button id="start_over_button" style="display: none;">Click to Start Over!</button>
-            <button id="stats_button" style="display: none;">Click to Display Stats!</button>
-        </div>
+    #left {
+        position: relative;
+        width: 800px;
+        height: 600px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        background: url('images/environment_forestbackground.png') no-repeat center center;
+        background-size: cover;
+    }
 
-        <script src="script.js"></script>
-    </body>
-    
+    .grass {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .grass:hover { transform: scale(1.05); }
+
+    #grass1 { left: 0; }
+    #grass2 { left: 275px; }
+    #grass3 { right: 0; }
+
+    #right {
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    h1 { color: #2c3e50; margin-bottom: 20px; }
+    h2, h3 { color: #34495e; margin: 5px 0; }
+    #status { font-size: 1.2em; margin: 10px 0; font-weight: bold; }
+    #supermode {
+        color: #e74c3c;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+        text-align: left;
+        min-height: 20px;
+    }
+
+    button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        margin: 5px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button:hover { background-color: #2980b9; }
+
+    #amtPokemon {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #fcf8e3;
+        border: 2px solid #f7ecb5;
+        border-radius: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        line-height: 1.4;
+        color: #8e6c00;
+        width: 100%;
+    }
+
+    #pokemon_caught_div, #pokeballs_left_div { margin: 5px 0; }
+</style>
+</head>
+<body>
+
+<h1>Gotta Catch 'em All!</h1>
+
+<div id="directions">
+Your goal in this game is to earn as many Pokéballs as possible while catching Pokémon.<br>
+Click one of the three grass clumps in the forest. 
+Behind one is a Pokémon, another has two free Pokéballs, and the last has nothing.<br>
+Sometimes you may encounter a "super" Pokémon. Use the buttons after each round to display results or restart the game.
+</div>
+
+<div id="game-container">
+    <div id="left">
+        <img class="grass" id="grass1" src="images/grass.png">
+        <img class="grass" id="grass2" src="images/grass.png">
+        <img class="grass" id="grass3" src="images/grass.png">
+    </div>
+    <div id="right">
+        <h2 id="supermode"></h2>
+        <h3 id="status">Click a grass</h3>
+        <div id="pokemon_caught_div">Caught: 0</div>
+        <div id="pokeballs_left_div">Pokéballs: 5</div>
+        <div id="amtPokemon"></div>
+
+        <button id="play_again_button" style="display: none;">Play Again!</button>
+        <button id="start_over_button" style="display: none;">Click to Start Over!</button>
+        <button id="stats_button" style="display: none;">Click to Display Stats!</button>
+    </div>
+</div>
+
+<script>
+const grass1 = document.getElementById('grass1');
+const grass2 = document.getElementById('grass2');
+const grass3 = document.getElementById('grass3');
+const pokemon_caught_div = document.getElementById('pokemon_caught_div');
+const pokeballs_left_div = document.getElementById('pokeballs_left_div');
+const play_again_button = document.getElementById('play_again_button');
+const start_over_button = document.getElementById('start_over_button');
+const stats_button = document.getElementById('stats_button');
+const status = document.getElementById('status');
+const in_super_mode = document.getElementById('supermode');
+const amtPokemon = document.getElementById('amtPokemon');
+
+const pokemon_img = ['images/pikachu.png','images/bulbasaur.png','images/charmander.png','images/eevee.png','images/squirtle.png'];
+const pokemon_name = ['Pikachu','Bulbasaur','Charmander','Eevee','Squirtle'];
+const super_pokemon_img = ['images/lugia.png','images/ho-oh.png','images/charizard.png','images/blastoise.png','images/venasaur.png'];
+const super_pokemon_name = ['Lugia','Ho-oh','Charizard','Blastoise','Venasaur'];
+
+let pokeballsRemaining = 5;
+let pokemonCaught = 0;
+let collectedItems = [];
+let gameState = 0;
+let superMode = Math.random() < 0.2;
+let gameOver = false;
+
+function pickGrass(grassElement) {
+    if (gameState !== 0 && !superMode && !gameOver) return;
+
+    if (superMode) {
+        let idx = Math.floor(Math.random() * super_pokemon_img.length);
+        grassElement.src = super_pokemon_img[idx];
+        let name = super_pokemon_name[idx];
+        in_super_mode.innerHTML = `✨ Super Pokémon! You got a ${name}! ✨`;
+        collectedItems.push(name + " (Super) found");
+        pokemonCaught++;
+        pokeballsRemaining--;
+        superMode = false;
+    } else {
+        pokeballsRemaining--;
+        let chance = Math.floor(Math.random() * 3);
+        if (chance === 0) {
+            grassElement.src = 'images/pokeballs.png';
+            pokeballsRemaining += 2;
+            status.innerHTML = "🎉 You found 2 Pokéballs!";
+            collectedItems.push("Pokéballs found");
+        } else if (chance === 1) {
+            grassElement.src = '';
+            status.innerHTML = "Nothing here...";
+            collectedItems.push("Nothing found");
+        } else {
+            let idx = Math.floor(Math.random() * pokemon_img.length);
+            grassElement.src = pokemon_img[idx];
+            let name = pokemon_name[idx];
+            status.innerHTML = `You caught a ${name}!`;
+            collectedItems.push(name + " found");
+            pokemonCaught++;
+        }
+    }
+
+    pokemon_caught_div.innerHTML = `Pokémon Caught: ${pokemonCaught}`;
+    pokeballs_left_div.innerHTML = `Pokéballs: ${pokeballsRemaining}`;
+    stats_button.style.display = 'block';
+    start_over_button.style.display = 'block';
+
+    if (pokeballsRemaining > 0) {
+        play_again_button.style.display = 'block';
+    } else {
+        play_again_button.style.display = 'none';
+        status.innerHTML = "💀 Game Over!";
+        gameOver = true;
+    }
+
+    gameState = 1;
+}
+
+function resetGame() {
+    grass1.src = 'images/grass.png';
+    grass2.src = 'images/grass.png';
+    grass3.src = 'images/grass.png';
+    pokeballsRemaining = 5;
+    pokemonCaught = 0;
+    collectedItems = [];
+    pokemon_caught_div.innerHTML = "Pokémon Caught: 0";
+    pokeballs_left_div.innerHTML = "Pokéballs: 5";
+    in_super_mode.innerHTML = "";
+    amtPokemon.innerHTML = "";
+    superMode = Math.random() < 0.2;
+    gameOver = false;
+    gameState = 0;
+    status.innerHTML = "Click a grass";
+    play_again_button.style.display = 'none';
+    start_over_button.style.display = 'none';
+    stats_button.style.display = 'none';
+}
+
+grass1.onclick = () => pickGrass(grass1);
+grass2.onclick = () => pickGrass(grass2);
+grass3.onclick = () => pickGrass(grass3);
+
+play_again_button.onclick = () => {
+    grass1.src = 'images/grass.png';
+    grass2.src = 'images/grass.png';
+    grass3.src = 'images/grass.png';
+    amtPokemon.innerHTML = "";
+    in_super_mode.innerHTML = "";
+    gameState = 0;
+    superMode = Math.random() < 0.2;
+    gameOver = false;
+    status.innerHTML = "Click a grass";
+};
+
+start_over_button.onclick = () => resetGame();
+
+stats_button.onclick = () => {
+    if (collectedItems.length === 0) {
+        amtPokemon.innerHTML = "<em>No results yet.</em>";
+        return;
+    }
+    let html = "<strong>Game Results:</strong><ol>";
+    collectedItems.slice().reverse().forEach(item => { html += `<li>${item}</li>`; });
+    html += "</ol>";
+    amtPokemon.innerHTML = html;
+};
+</script>
+
+</body>
 </html>
-
