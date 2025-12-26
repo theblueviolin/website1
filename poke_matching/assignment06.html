@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Matching Madness</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 40px;
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .background {
+      width: 100%;
+      max-width: 1400px;
+      min-height: 90vh;
+      background: url("assignment06_images/pikasurf.jpeg") center / cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .game-panel {
+      background: rgba(0, 0, 0, 0.65);
+      color: white;
+      border-radius: 20px;
+      padding: 40px 50px;
+      width: 100%;
+      max-width: 650px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 36px;
+    }
+
+    button, select {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button {
+      background: #ffcb05;
+      color: #111;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    select { margin-top: 10px; }
+
+    .hidden { display: none; }
+
+    #timer_container {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    .tile_container {
+      margin: 30px auto 0;
+      display: grid;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .tile_container img {
+      width: 90px;
+      cursor: pointer;
+    }
+
+    .easy_board { grid-template-columns: repeat(4, 1fr); width: 360px; }
+    .medium_board { grid-template-columns: repeat(5, 1fr); width: 450px; }
+    .hard_board { grid-template-columns: repeat(6, 1fr); width: 540px; }
+
+    .attempts {
+      text-align: left;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="background">
+  <div class="game-panel">
+
+    <h1>Memory Matching Madness</h1>
+
+    <div id="panel_gamestart">
+      <label for="difficulty">Select Difficulty:</label><br>
+      <select id="difficulty">
+        <option value="selection">Pick difficulty</option>
+        <option value="easy">Easy (3x4)</option>
+        <option value="medium">Medium (4x5)</option>
+        <option value="hard">Hard (5x6)</option>
+      </select>
+      <p>Let's play! Click to begin!</p>
+      <button id="button_playgame">Play Game</button>
+    </div>
+
+    <div id="panel_gameplaying" class="hidden">
+      <div id="timer_container"></div>
+      <div class="tile_container"></div>
+    </div>
+
+    <div id="panel_gameover" class="hidden">
+      <p id="gameover_result"></p>
+      <div class="attempts" id="attempt_list"></div>
+      <button id="play_again">Play Again</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const panel_gamestart = document.querySelector('#panel_gamestart');
+const panel_gameplaying = document.querySelector('#panel_gameplaying');
+const panel_gameover = document.querySelector('#panel_gameover');
+const button_playgame = document.querySelector('#button_playgame');
+const play_again_btn = document.querySelector('#play_again');
+const timer_container = document.querySelector('#timer_container');
+const tile_container = document.querySelector('.tile_container');
+const gameover_result = document.querySelector('#gameover_result');
+const attempt_list = document.querySelector('#attempt_list');
+
+const correctSound = new Audio('correct.mp3');
+const incorrectSound = new Audio('incorrect.mp3');
+
+let numTiles, timeRemaining, totalTime;
+let timerIntervalId;
+let match = 0;
+let selectedTiles = [];
+let boardLocked = false;
+
+let attempts = [];
+let attemptCount = 0;
+
+const allAssets = [
+  'snorlax.png','electrabuzz.png','chansey.png','oddish.png','pikachu.png',
+  'paras.png','arcanine.png','ponita.png','venonat.png','eggsecute.png',
+  'machop.png','pidgey.png','psyduck.png','tauros.png','vulpix.png','gloom.png',
+  'krabby.png','butterfree.png','bulbasaur.png','clefairy.png'
+];
+
+document.getElementById('difficulty').addEventListener('change', e => {
+  selectedTiles = [];
+  match = 0;
+
+  const assets = [...allAssets];
+  const val = e.target.value;
+
+  if (val === 'easy') {
+    numTiles = 12;
+    totalTime = 45;
+    tile_container.className = 'tile_container easy_board';
+  } else if (val === 'medium') {
+    numTiles = 20;
+    totalTime = 90;
+    tile_container.className = 'tile_container medium_board';
+  } else if (val === 'hard') {
+    numTiles = 30;
+    totalTime = 120;
+    tile_container.className = 'tile_container hard_board';
+  }
+
+  timeRemaining = totalTime;
+
+  while (selectedTiles.length < numTiles) {
+    let i = Math.floor(Math.random() * assets.length);
+    selectedTiles.push(assets[i], assets[i]);
+    assets.splice(i, 1);
+  }
+});
+
+function startTimer() {
+  timer_container.textContent = `Time left: ${timeRemaining}s`;
+  timerIntervalId = setInterval(() => {
+    timeRemaining--;
+    timer_container.textContent = `Time left: ${timeRemaining}s`;
+
+    if (timeRemaining <= 0) {
+      clearInterval(timerIntervalId);
+      endGame(false);
+    }
+  }, 1000);
+}
+
+function endGame(won) {
+  panel_gameplaying.classList.add('hidden');
+  panel_gameover.classList.remove('hidden');
+
+  attemptCount++;
+
+  if (won) {
+    const timeUsed = totalTime - timeRemaining;
+    attempts.push(`Attempt ${attemptCount}: Completed in ${timeUsed}s`);
+    gameover_result.textContent = `You won in ${timeUsed} seconds!`;
+  } else {
+    attempts.push(`Attempt ${attemptCount}: Did not finish`);
+    gameover_result.textContent = `Time's up!`;
+  }
+
+  renderAttempts();
+}
+
+function renderAttempts() {
+  attempt_list.innerHTML = "<strong>Attempts:</strong><br>" + attempts.join("<br>");
+}
+
+button_playgame.onclick = startGame;
+play_again_btn.onclick = () => {
+  panel_gameover.classList.add('hidden');
+  panel_gamestart.classList.remove('hidden');
+};
+
+function startGame() {
+  panel_gamestart.classList.add('hidden');
+  panel_gameplaying.classList.remove('hidden');
+  panel_gameover.classList.add('hidden');
+
+  tile_container.innerHTML = '';
+  match = 0;
+  boardLocked = false;
+  timeRemaining = totalTime;
+
+  startTimer();
+  selectedTiles.sort(() => Math.random() - 0.5);
+
+  let tile1 = null;
+  let tile2 = null;
+
+  selectedTiles.forEach(pokemon => {
+    const tile = document.createElement('img');
+    tile.src = 'assignment06_images/pokeball.png';
+    tile.dataset.secret = 'assignment06_images/' + pokemon;
+
+    tile.onclick = () => {
+      if (boardLocked || tile === tile1 || tile === tile2) return;
+
+      tile.src = tile.dataset.secret;
+
+      if (!tile1) {
+        tile1 = tile;
+      } else {
+        tile2 = tile;
+        boardLocked = true;
+
+        if (tile1.dataset.secret === tile2.dataset.secret) {
+          correctSound.play();
+          match++;
+          tile1 = tile2 = null;
+          boardLocked = false;
+
+          if (match === numTiles / 2) {
+            clearInterval(timerIntervalId);
+            endGame(true);
+          }
+        } else {
+          incorrectSound.play();
+          setTimeout(() => {
+            tile1.src = 'assignment06_images/pokeball.png';
+            tile2.src = 'assignment06_images/pokeball.png';
+            tile1 = tile2 = null;
+            boardLocked = false;
+          }, 1000);
+        }
+      }
+    };
+
+    tile_container.appendChild(tile);
+  });
+}
+</script>
+
+</body>
+</html>

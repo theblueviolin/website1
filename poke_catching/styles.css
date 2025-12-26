@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#left {
+    float: left;
+    width: 800px;
+    height: 600px;
+    position: relative;
+    margin-right: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.grass {
+    position: absolute;
+    bottom: 0;
+    width: 200px; /* slightly bigger like original */
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.grass:hover {
+    transform: scale(1.05);
+}
+
+#grass1 { left: 0; }
+#grass2 { left: 275px; }
+#grass3 { right: 0; }
+
+#right {
+    max-width: 400px;
+    float: left;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+h2, h3 {
+    color: #34495e;
+    margin: 5px 0;
+}
+
+#status {
+    font-size: 1.2em;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#supermode {
+    color: #2980b9;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#amtPokemon {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #fcf8e3;
+    border: 2px solid #f7ecb5;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: "Courier New", monospace;
+    line-height: 1.4;
+    color: #8e6c00;
+}

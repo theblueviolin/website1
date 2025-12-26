@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pokemon Game Macro 3</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div id="left">
+            <img id="background" src="images/environment_forestbackground.png">
+            <img class="grass" id="grass1" src="images/grass.png">
+            <img class="grass" id="grass2" src="images/grass.png">
+            <img class="grass" id="grass3" src="images/grass.png">
+        </div>
+        <div id="right">
+            <h1>Gotta Catch 'em All!</h1>
+            <p>Your goal in this game is to earn as many Pokeballs as possible while catching a variety of Pokemon along the way. 
+
+            <br><br> To play simply click on one of the three grass clumps in the forest. Behind one of those grass clumps is a Pokemon that can be caught. Behind another grass clump are two free Pokeballs that you can use to try again, and behind the last grass clump is nothing. 
+            <br><br> It won't happen every round, but sometimes you can encounter a "super" Pokemon. Additionally, you can click a button that appears after each round to display the result history of the current game. 
+            <br><br>If you choose to start over, click play again to begin a new game. The result history and pokemon caught will be cleared, and you will restarted with 5 Pokeballs.</p>
+            <h2 id="supermode"> </h3>
+            <h3 id="status">Click a grass</h2>
+
+            <div id="pokemon_caught_div">Caught: 0</div>
+            <div id="pokeballs_left_div">Pokeballs: 5</div>
+            <!-- <div id="amtPokeballsCollected"> </div> -->
+            <!-- <div id="amtFoundNothing"> </div> -->
+            <div id="amtPokemon"> </div>
+            <div id="yellow"> </div>
+
+            <button id="play_again_button" style="display: none;">Play Again!</button>
+            <button id="start_over_button" style="display: none;">Click to Start Over!</button>
+            <button id="stats_button" style="display: none;">Click to Display Stats!</button>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+    
+</html>
+
