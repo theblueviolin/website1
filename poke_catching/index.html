@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pokemon Game Macro 3</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -70,7 +72,13 @@
 
     h1 { color: #2c3e50; margin-bottom: 20px; }
     h2, h3 { color: #34495e; margin: 5px 0; }
-    #status { font-size: 1.2em; margin: 10px 0; font-weight: bold; }
+
+    #status {
+        font-size: 1.2em;
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
     #supermode {
         color: #e74c3c;
         font-weight: bold;
@@ -107,17 +115,125 @@
         width: 100%;
     }
 
-    #pokemon_caught_div, #pokeballs_left_div { margin: 5px 0; }
+    #pokemon_caught_div,
+    #pokeballs_left_div {
+        margin: 5px 0;
+    }
+
+    /* ========================= */
+    /* 📱 MOBILE OPTIMIZATION */
+    /* ========================= */
+    @media (max-width: 768px) {
+
+        body {
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        #directions {
+            font-size: 1.25em;
+            line-height: 1.5;
+        }
+
+        #game-container {
+            gap: 20px;
+        }
+
+        #left {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+
+        .grass {
+            width: 30%;
+        }
+
+        #grass1 { left: 0; }
+        #grass2 { left: 35%; }
+        #grass3 { right: 0; }
+
+        #right {
+            max-width: 100%;
+            align-items: center;
+            text-align: center;
+        }
+
+        #status {
+            font-size: 1.5em;
+        }
+
+        #pokemon_caught_div,
+        #pokeballs_left_div {
+            font-size: 1.3em;
+        }
+
+        #supermode {
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        button {
+            font-size: 1.2em;
+            padding: 12px 20px;
+            width: 100%;
+        }
+
+        #amtPokemon {
+            font-size: 1.1em;
+            max-height: 250px;
+        }
+    }
+
+    .home-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        padding: 8px 14px;
+        border-radius: 999px; /* pill shape */
+        background: rgba(0, 0, 0, 0.05);
+        color: #333;
+        text-decoration: none;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(6px);
+        transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+        opacity: 0.75;
+        z-index: 1000;
+        }
+
+        .home-button:hover {
+        background: rgba(0, 0, 0, 0.1);
+        opacity: 1;
+        transform: translateY(-1px);
+        }
+
+        /* Mobile refinement */
+        @media (max-width: 600px) {
+        .home-button {
+            font-size: 14px;
+            padding: 6px 12px;
+            top: 14px;
+            left: 14px;
+        }
+    }
+
+
 </style>
 </head>
+
 <body>
+<a href="../index.html" class="home-button" aria-label="Home">← Home</a>
 
 <h1>Gotta Catch 'em All!</h1>
 
 <div id="directions">
-Your goal in this game is to earn as many Pokéballs as possible while catching Pokémon.<br>
-Click one of the three grass clumps in the forest. 
-Behind one is a Pokémon, another has two free Pokéballs, and the last has nothing.<br>
+Your goal in this game is to earn as many Pokéballs as possible while catching Pokémon.
+Click one of the three grass clumps in the forest. Behind one is a Pokémon, another has two free Pokéballs, and the last has nothing.
 Sometimes you may encounter a "super" Pokémon. Use the buttons after each round to display results or restart the game.
 </div>
 
@@ -127,6 +243,7 @@ Sometimes you may encounter a "super" Pokémon. Use the buttons after each round
         <img class="grass" id="grass2" src="images/grass.png">
         <img class="grass" id="grass3" src="images/grass.png">
     </div>
+
     <div id="right">
         <h2 id="supermode"></h2>
         <h3 id="status">Click a grass</h3>

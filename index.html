@@ -95,6 +95,23 @@
       header h1 { font-size: 48px; }
       .profile { grid-template-columns: 1fr; gap: 40px; }
     }
+    @media (max-width: 600px) {
+        nav {
+            gap: 16px;                 /* tighter spacing */
+            flex-wrap: nowrap;         /* force one line */
+            overflow: visible;
+        }
+
+        nav a {
+            font-size: 16px;           /* smaller text */
+            white-space: nowrap;       /* prevent word breaks */
+        }
+
+        header {
+            padding: 0 20px;           /* give nav more room */
+        }
+    }
+
   </style>
 </head>
 

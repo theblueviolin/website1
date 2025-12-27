@@ -63,6 +63,23 @@
       header h1 { font-size:48px; }
       .experience-block { grid-template-columns:1fr; }
     }
+
+    @media (max-width: 600px) {
+        nav {
+            gap: 16px;                 /* tighter spacing */
+            flex-wrap: nowrap;         /* force one line */
+            overflow: visible;
+        }
+
+        nav a {
+            font-size: 16px;           /* smaller text */
+            white-space: nowrap;       /* prevent word breaks */
+        }
+
+        header {
+            padding: 0 20px;           /* give nav more room */
+        }
+    }
   </style>
 </head>
 
@@ -89,7 +106,7 @@
         <div class="experience-text">
           <h3>Freelance Violinist & Violist</h3>
           <div class="experience-role">Performing · Teaching · Collaboration</div>
-          <p>Substitute musician with the Las Vegas Philharmonic, Pacific, New World, Santa Barbara, and Culver City Symphonies. Active freelance violin and violist for weddings and events. Studio recording contributions can be heard on Spotify and Apple Music.</p>
+          <p>Substitute musician with the orchestras of Pacific, New World, Las Vegas, Santa Barbara, and Culver City. Active freelance violin and violist for weddings and events. Studio recording contributions can be heard on Spotify and Apple Music.</p>
         </div>
         <div class="experience-image"><img src="images/violin.jpg" alt="Violin performance"></div>
       </div>

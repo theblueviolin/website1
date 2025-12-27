@@ -89,10 +89,27 @@
       margin-top: 20px;
       font-size: 15px;
     }
+
+    .home-button:hover {
+        background: rgba(0, 0, 0, 0.1);
+        opacity: 1;
+        transform: translateY(-1px);
+        }
+
+        /* Mobile refinement */
+        @media (max-width: 600px) {
+        .home-button {
+            font-size: 14px;
+            padding: 6px 12px;
+            top: 14px;
+            left: 14px;
+        }
+    }
   </style>
 </head>
 
 <body>
+<a href="../index.html" class="home-button" aria-label="Home">← Home</a>
 
 <div class="background">
   <div class="game-panel">
