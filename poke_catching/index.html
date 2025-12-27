@@ -142,13 +142,18 @@
             gap: 20px;
         }
 
+        /* Mobile board fixed size */
         #left {
-            width: 100%;
-            max-width: 95vw;
-            aspect-ratio: 4 / 3;
-            min-height: 65vw;   /* forces the “super Pokémon” size immediately */
+            width: 90vw;
+            height: 65vw; /* fixed “super Pokémon” size */
+            max-width: 600px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            background: url('images/environment_forestbackground.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
         }
-
 
         .grass {
             width: 30%;
@@ -190,6 +195,7 @@
         }
     }
 
+    /* Home button styling */
     .home-button {
         position: fixed;
         top: 20px;
@@ -197,7 +203,7 @@
         font-family: 'Inter', sans-serif;
         font-size: 15px;
         padding: 8px 14px;
-        border-radius: 999px; /* pill shape */
+        border-radius: 999px;
         background: rgba(0, 0, 0, 0.05);
         color: #333;
         text-decoration: none;
@@ -206,16 +212,15 @@
         transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
         opacity: 0.75;
         z-index: 1000;
-        }
+    }
 
-        .home-button:hover {
+    .home-button:hover {
         background: rgba(0, 0, 0, 0.1);
         opacity: 1;
         transform: translateY(-1px);
-        }
+    }
 
-        /* Mobile refinement */
-        @media (max-width: 600px) {
+    @media (max-width: 600px) {
         .home-button {
             font-size: 14px;
             padding: 6px 12px;
@@ -223,8 +228,6 @@
             left: 14px;
         }
     }
-
-
 </style>
 </head>
 
