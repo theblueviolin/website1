@@ -91,79 +91,30 @@
     }
 
     /* Home button (default desktop) */
-    .home-btn {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 8px 12px;
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 20px;
-        text-decoration: none;
-        font-family: 'Inter', sans-serif;
-        font-size: 16px;
-        color: #333;
-        border: 1px solid #ccc;
-        z-index: 1000;
-    }
+  .home-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #333;
+      border: 1px solid #ccc;
+      z-index: 1000;
+  }
 
-    /* Mobile-specific positioning */
-    @media (max-width: 600px) {
-        .home-btn {
-            position: fixed;      /* stays visible while scrolling */
-            top: 12px;
-            left: 12px;
-            font-size: 18px;      /* bigger tap target */
-            padding: 10px 14px;
-        }
-    }
-    /* ---------- MOBILE OPTIMIZATION ---------- */
-@media (max-width: 600px) {
-
-    body {
-      padding: 0;                /* remove white border */
-    }
-
-    .background {
-      padding: 12px;             /* small breathing room */
-      min-height: 100vh;
-    }
-
-    .game-panel {
-      max-width: 100%;
-      padding: 20px;
-      border-radius: 14px;
-    }
-
-    h1 {
-      font-size: 28px;
-    }
-
-    #timer_container {
-      font-size: 20px;
-    }
-
-    /* Make board scale naturally */
-    .tile_container {
-      gap: 12px;
-    }
-
-    /* Bigger Pokéballs */
-    .tile_container img {
-      width: 72px;
-    }
-
-    /* Remove fixed board widths on mobile */
-    .easy_board,
-    .medium_board,
-    .hard_board {
-      width: auto;
-    }
-
-    /* Slightly larger buttons for thumbs */
-    button, select {
-      font-size: 18px;
-      padding: 12px 16px;
-    }
+  /* Mobile-specific positioning */
+  @media (max-width: 600px) {
+      .home-btn {
+          position: fixed;      /* stays visible while scrolling */
+          top: 12px;
+          left: 12px;
+          font-size: 18px;      /* bigger tap target */
+          padding: 10px 14px;
+      }
   }
 
   </style>
