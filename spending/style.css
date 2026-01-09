@@ -149,37 +149,45 @@ th { color: #666; font-weight: 500; }
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
-/* Mobile Layout */
+/* Mobile Layout for iPhone / small screens */
 @media (max-width: 768px) {
+
     body {
         flex-direction: column; /* stack everything vertically */
+        padding: 0;
+        margin: 0;
     }
 
+    /* Months on top */
     aside {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* months on top */
-        gap: 5px;
-        margin-bottom: 15px;
-        order: 0; /* put months first */
+        grid-template-columns: repeat(4, 1fr); /* 4 months per row */
+        gap: 8px;
+        margin: 15px 0;
+        order: 0;
+        padding: 0 10px;
     }
 
     aside button {
         width: 100%;
-        height: 50px;
-        font-size: 12px;
-        padding: 0;
+        height: 60px; /* bigger for touch */
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 12px;
     }
 
     main {
         width: 100%;
-        padding: 10px;
-        order: 1; /* main content below months */
+        padding: 10px 15px;
+        order: 1;
     }
 
+    /* Form stacked vertically */
     #expense-form {
-        flex-direction: column; /* stack inputs vertically */
-        gap: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         margin-bottom: 20px;
     }
 
@@ -187,21 +195,55 @@ th { color: #666; font-weight: 500; }
     #expense-form select,
     #expense-form button {
         width: 100%;
-        flex: none;
-        max-width: 100%;
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    table {
-        font-size: 12px;
+        padding: 14px;
+        font-size: 16px;
         border-radius: 12px;
     }
 
+    #expense-form input::placeholder {
+        font-size: 14px;
+    }
+
+    #expense-form button {
+        background: black;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    #expense-form button:hover {
+        opacity: 0.9;
+    }
+
+    /* Table responsive */
+    table {
+        width: 100%;
+        font-size: 14px;
+        border-radius: 12px;
+        display: block;
+        overflow-x: auto; /* scroll instead of shrinking */
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 12px 8px;
+    }
+
+    /* Weekly stats */
     #weekly-stats {
         width: 100%;
-        margin-top: 15px;
-        order: 2; /* ensure stats are below table/form */
+        margin-top: 20px;
+        padding: 15px;
+        order: 2;
     }
+
+    #weekly-stats table {
+        width: 100%;
+        font-size: 14px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
 }
 
