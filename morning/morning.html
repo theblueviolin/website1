@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Good Morning Search</title>
+</head>
+<body>
+  <h1>Good Morning Generator</h1>
+  <button onclick="searchMessage()">Generate & Search</button>
+
+  <script>
+    function generateMessage() {
+      const messages = [
+        "Good morning! Hope your day shines bright",
+        "Good morning! Wishing you a peaceful and productive day",
+        "Good morning! Today is full of possibilities",
+        "Good morning! You’ve got this"
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function searchMessage() {
+      const msg = generateMessage();
+      const url = "https://www.google.com/search?q=" + encodeURIComponent(msg);
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
