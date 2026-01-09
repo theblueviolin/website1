@@ -17,31 +17,26 @@ for (let i = 0; i < 12; i++) {
 // Simulated database
 const spendingDB = new Map();
 
+// Expense submission
 function submitExpense() {
   const nameValue = document.getElementById('name').value || '(no name)';
   const categoryValue = document.getElementById('category').value;
   const amountValue = parseFloat(document.getElementById('amount').value) || 0;
 
-  // Use selected month and current day/time
   const [year, month] = currentMonth.split('-');
   const today = new Date();
   const dateValue = new Date(year, month-1, today.getDate(), today.getHours(), today.getMinutes(), today.getSeconds()).toISOString();
 
   if (!spendingDB.has(currentMonth)) spendingDB.set(currentMonth, []);
-  spendingDB.get(currentMonth).push({
-    name: nameValue,
-    category: categoryValue,
-    amount: amountValue,
-    date: dateValue
-  });
+  spendingDB.get(currentMonth).push({ name: nameValue, category: categoryValue, amount: amountValue, date: dateValue });
 
   loadMonth(currentMonth);
 
-  // Clear inputs
   document.getElementById('name').value = '';
   document.getElementById('amount').value = '';
 }
 
+// Load month
 function loadMonth(month, btn) {
   currentMonth = month;
 
@@ -80,23 +75,20 @@ function removeExpense(index) {
 
 function updateWeeklyStats(month) {
   const data = spendingDB.get(month) || [];
-  const weeks = [0,0,0,0]; // week 1-4 totals
-
+  const weeks = [0,0,0,0];
   data.forEach(e => {
     const day = new Date(e.date).getDate();
-    if (day >= 1 && day <= 8) weeks[0] += e.amount;
-    else if (day >= 9 && day <= 16) weeks[1] += e.amount;
-    else if (day >= 17 && day <= 24) weeks[2] += e.amount;
+    if (day <= 8) weeks[0] += e.amount;
+    else if (day <=16) weeks[1] += e.amount;
+    else if (day <=24) weeks[2] += e.amount;
     else weeks[3] += e.amount;
   });
 
   weeklyRowsEl.innerHTML = '';
-  weeks.forEach((total, i) => {
+  const labels = ['Week 1 (1-8)','Week 2 (9-16)','Week 3 (17-24)','Week 4 (25-end)'];
+  weeks.forEach((total,i) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>Week ${i+1}</td>
-      <td>$${total.toFixed(2)}</td>
-    `;
+    tr.innerHTML = `<td>${labels[i]}</td><td>$${total.toFixed(2)}</td>`;
     weeklyRowsEl.appendChild(tr);
   });
 }
@@ -108,3 +100,46 @@ setInterval(() => {
 }, 1000);
 
 loadMonth(currentMonth);
+
+// --- LOGIN MODAL CODE ---
+function showLoginModal() { document.getElementById('login-modal').style.display='block'; }
+function closeLoginModal() { document.getElementById('login-modal').style.display='none'; }
+
+async function register() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const msg = document.getElementById('login-message');
+
+  if(!username || !password){ msg.innerText="Enter username & password"; msg.style.color="red"; return; }
+
+  const res = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+  const data = await res.json();
+  if(data.success){
+    msg.innerText="Account created!"; msg.style.color="green";
+    document.getElementById('modal-buttons').innerHTML=`<button onclick="switchToLogin()">Go to Login</button>`;
+  } else { msg.innerText=data.message; msg.style.color="red"; }
+}
+
+function switchToLogin() {
+  document.getElementById('modal-title').innerText="Login";
+  document.getElementById('modal-buttons').innerHTML=`<button onclick="login()">Login</button><button onclick="register()">Register</button>`;
+  document.getElementById('login-message').innerText="";
+  document.getElementById('username').value="";
+  document.getElementById('password').value="";
+}
+
+async function login() {
+  const username=document.getElementById('username').value.trim();
+  const password=document.getElementById('password').value.trim();
+  const msg=document.getElementById('login-message');
+  if(!username||!password){ msg.innerText="Enter username & password"; msg.style.color="red"; return; }
+
+  const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+  const data=await res.json();
+  msg.innerText=data.message; msg.style.color=data.success?"green":"red";
+
+  if(data.success){
+    closeLoginModal();
+    document.getElementById('login-btn').innerText=`Welcome, ${username}`;
+  }
+}
