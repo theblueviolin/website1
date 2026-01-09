@@ -13,23 +13,7 @@
   <nav>
     <h2 id="title"></h2>
     <div id="clock"></div>
-    <button id="login-btn" onclick="showLoginModal()">Login</button>
   </nav>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeLoginModal()">&times;</span>
-      <h3 id="modal-title">Login / Register</h3>
-      <input type="text" id="username" placeholder="Username">
-      <input type="password" id="password" placeholder="Password">
-      <div id="modal-buttons">
-        <button onclick="login()">Login</button>
-        <button onclick="register()">Register</button>
-      </div>
-      <p id="login-message"></p>
-    </div>
-  </div>
 
   <div class="card" id="expense-form">
     <select id="category">
@@ -41,19 +25,6 @@
     <input id="amount" type="number" placeholder="Amount ($)">
     <input id="name" placeholder="Name (optional)">
     <button onclick="submitExpense()">Add</button>
-  </div>
-
-  <div class="card" id="weekly-stats">
-    <h3>Weekly Spending</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Week</th>
-          <th>Total ($)</th>
-        </tr>
-      </thead>
-      <tbody id="weekly-rows"></tbody>
-    </table>
   </div>
 
   <table>
@@ -68,6 +39,21 @@
     </thead>
     <tbody id="rows"></tbody>
   </table>
+
+  <!-- Weekly stats -->
+  <div class="card" id="weekly-stats">
+    <h3>Weekly Spending</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Total ($)</th>
+        </tr>
+      </thead>
+      <tbody id="weekly-rows"></tbody>
+    </table>
+  </div>
+
 </main>
 
 <script src="script.js"></script>
