@@ -1,4 +1,6 @@
-/* General Body */
+/* ----------------------
+   GENERAL BODY
+---------------------- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     background: #f5f5f7;
@@ -6,19 +8,20 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center; /* center content horizontally on wide screens */
     color: #333;
-    justify-content: flex-start;
-    align-items: center;
 }
 
-/* Months Sidebar */
+/* ----------------------
+   MONTHS SIDEBAR
+---------------------- */
 aside {
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px; /* allow full width on wide phones */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     gap: 6px;
-    padding: 10px;
+    padding: 10px 10px 0 10px;
     box-sizing: border-box;
 }
 
@@ -29,9 +32,9 @@ aside button {
     border: none;
     cursor: pointer;
     font-weight: 500;
+    font-size: 12px;
     transition: all 0.2s;
     color: #333;
-    font-size: 12px;
 }
 
 aside button:nth-child(1),
@@ -50,18 +53,23 @@ aside button:nth-child(12) { background: #b9fbc0; }
 aside button.active { border: 2px solid black; color: black; }
 aside button:hover { opacity: 0.85; }
 
-/* Main Content */
+/* ----------------------
+   MAIN CONTENT
+---------------------- */
 main {
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px; /* fill iPhone 16 Pro width */
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    flex-grow: 1; /* allow main to grow vertically */
     box-sizing: border-box;
 }
 
-/* Navigation */
+/* ----------------------
+   NAVIGATION
+---------------------- */
 nav {
     display: flex;
     justify-content: space-between;
@@ -78,11 +86,13 @@ nav h2 {
     color: #666;
 }
 
-/* Input Card */
+/* ----------------------
+   EXPENSE FORM
+---------------------- */
 #expense-form {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
 }
 
 #expense-form input,
@@ -103,7 +113,7 @@ nav h2 {
 }
 
 #expense-form button {
-    flex: 1 1 100%;
+    flex: 1 1 100%; /* button full width */
     background: black;
     color: white;
     font-weight: 600;
@@ -114,28 +124,33 @@ nav h2 {
 
 #expense-form button:hover { opacity: 0.9; }
 
-/* Table */
+/* ----------------------
+   TABLES
+---------------------- */
 .table-wrapper {
-    overflow-x: auto; /* scroll horizontally on small screens */
+    width: 100%;
+    overflow-x: auto; /* scroll on small screens */
 }
 
 table {
     width: 100%;
-    background: white;
-    border-radius: 12px;
     border-collapse: collapse;
+    border-radius: 12px;
+    background: white;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    font-size: 14px;
 }
 
 th, td {
     padding: 8px;
     border-bottom: 1px solid #eee;
     text-align: left;
-    white-space: nowrap; /* prevent text wrap inside cells */
+    white-space: nowrap;
 }
 
-th { color: #666; font-weight: 500; }
+th {
+    color: #666;
+    font-weight: 500;
+}
 
 /* Remove Button */
 .remove-btn {
@@ -155,19 +170,32 @@ th { color: #666; font-weight: 500; }
 
 .remove-btn:hover { opacity: 0.8; }
 
-/* Card for stats */
-.card { 
-    background: white; 
-    border-radius: 16px; 
-    padding: 12px; 
+/* ----------------------
+   CARDS
+---------------------- */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    width: 100%;
+    flex-shrink: 0;
 }
 
-/* Responsive tweaks */
-@media (max-width: 400px) {
+/* ----------------------
+   RESPONSIVE TWEAKS
+---------------------- */
+@media (max-width: 600px) {
     nav h2 { font-size: 20px; }
     #clock { font-size: 12px; }
     #expense-form input,
     #expense-form select,
-    #expense-form button { font-size: 12px; padding: 6px; }
+    #expense-form button { font-size: 13px; padding: 6px; }
+    aside button { height: 36px; font-size: 11px; }
+}
+
+@media (min-width: 1200px) {
+    main, aside {
+        max-width: 900px; /* center content on very wide screens */
+    }
 }
