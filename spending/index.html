@@ -27,33 +27,36 @@
     <button onclick="submitExpense()">Add</button>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th>Date/Time</th>
-        <th>Item</th>
-        <th>Category</th>
-        <th>Amount ($)</th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Date/Time</th>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Amount ($)</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
 
   <!-- Weekly stats -->
   <div class="card" id="weekly-stats">
     <h3>Weekly Spending</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Week</th>
-          <th>Total ($)</th>
-        </tr>
-      </thead>
-      <tbody id="weekly-rows"></tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Total ($)</th>
+          </tr>
+        </thead>
+        <tbody id="weekly-rows"></tbody>
+      </table>
+    </div>
   </div>
-
 </main>
 
 <script src="script.js"></script>

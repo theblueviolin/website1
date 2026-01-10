@@ -22,7 +22,6 @@ function submitExpense() {
   const categoryValue = document.getElementById('category').value;
   const amountValue = parseFloat(document.getElementById('amount').value) || 0;
 
-  // Use selected month and current day/time
   const [year, month] = currentMonth.split('-');
   const today = new Date();
   const dateValue = new Date(year, month-1, today.getDate(), today.getHours(), today.getMinutes(), today.getSeconds()).toISOString();
@@ -37,7 +36,6 @@ function submitExpense() {
 
   loadMonth(currentMonth);
 
-  // Clear inputs
   document.getElementById('name').value = '';
   document.getElementById('amount').value = '';
 }
@@ -80,7 +78,7 @@ function removeExpense(index) {
 
 function updateWeeklyStats(month) {
   const data = spendingDB.get(month) || [];
-  const weeks = [0,0,0,0]; // week 1-4 totals
+  const weeks = [0,0,0,0];
 
   data.forEach(e => {
     const day = new Date(e.date).getDate();
