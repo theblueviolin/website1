@@ -150,7 +150,7 @@ th { color: #666; font-weight: 500; }
 }
 
 /* Mobile Layout for iPhone / small screens */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 
     body {
         flex-direction: column; /* stack everything vertically */
