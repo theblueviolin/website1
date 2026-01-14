@@ -1,3 +1,5 @@
+const API_URL = "https://costly-emilie-blueviolin-d88ed85a.koyeb.app";
+
 const yearSelect = document.getElementById('year-select');
 const monthsEl = document.getElementById('months');
 const rowsEl = document.getElementById('rows');
@@ -40,7 +42,8 @@ function showRegisterForm(error = "") {
 async function handleLogin() {
     const u = document.getElementById('l-name').value;
     const p = document.getElementById('l-pass').value;
-    const res = await fetch('/api/login', {
+    // Updated with API_URL
+    const res = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: u, password: p })
@@ -62,7 +65,8 @@ async function handleRegister() {
     const p = document.getElementById('r-pass').value;
     const c = document.getElementById('r-conf').value;
     if (p !== c) return showRegisterForm("Passwords don't match");
-    const res = await fetch('/api/register', {
+    // Updated with API_URL
+    const res = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: u, password: p })
@@ -134,7 +138,8 @@ async function submitExpense() {
     const [selYear, selMonth] = currentMonthKey.split('-');
     const selectedDate = new Date(selYear, parseInt(selMonth) - 1, 15, 12, 0, 0);
 
-    await fetch('/api/expenses', {
+    // Updated with API_URL
+    await fetch(`${API_URL}/api/expenses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -167,7 +172,8 @@ async function loadMonth(key, btn) {
         return;
     }
 
-    const res = await fetch(`/api/expenses/${userAccount.username}`);
+    // Updated with API_URL
+    const res = await fetch(`${API_URL}/api/expenses/${userAccount.username}`);
     const expenses = await res.json();
     
     const filtered = expenses.filter(e => {
@@ -224,7 +230,8 @@ async function saveRow(index) {
         amount: parseFloat(document.getElementById(`edit-amt-${index}`).value),
         date: correctedDate
     };
-    await fetch(`/api/expenses/${userAccount.username}/${index}`, {
+    // Updated with API_URL
+    await fetch(`${API_URL}/api/expenses/${userAccount.username}/${index}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ updatedExpense: updated })
@@ -234,7 +241,8 @@ async function saveRow(index) {
 
 async function removeExpense(idx) {
     if (confirm("Are you sure?")) {
-        await fetch(`/api/expenses/${userAccount.username}/${idx}`, { method: 'DELETE' });
+        // Updated with API_URL
+        await fetch(`${API_URL}/api/expenses/${userAccount.username}/${idx}`, { method: 'DELETE' });
         loadMonth(currentMonthKey);
     }
 }
