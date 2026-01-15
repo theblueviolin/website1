@@ -165,7 +165,6 @@ async function loadMonth(key, btn) {
 
     if (!userAccount) {
         rowsEl.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#999; padding:40px;">Please log in</td></tr>';
-        weeklyRowsEl.innerHTML = '';
         return;
     }
 

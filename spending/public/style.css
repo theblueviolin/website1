@@ -95,40 +95,31 @@ nav h2 { font-size: 64px; font-family: 'Source Serif 4', serif; margin: 0; }
 #expense-form select, #expense-form input { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 15px; flex: 1; }
 #expense-form button { background: #000; color: #fff; border: none; border-radius: 15px; padding: 15px; font-weight: 700; flex: 1; cursor: pointer; }
 
-#weekly-stats { background: #fff !important; border: 1px solid #eee; }
-.weekly-table { width: 100%; border-collapse: collapse; }
-.weekly-table tr { border-bottom: 1px solid #eee; }
-.weekly-table tr:last-child { border-bottom: none; }
-.weekly-table td { padding: 15px 0; }
-
 .table-wrapper { width: 100%; margin-bottom: 60px; }
-table { width: 100%; border-collapse: collapse; table-layout: fixed; } /* Added fixed layout to control widths */
+table { width: 100%; border-collapse: collapse; table-layout: fixed; } /* Controls column sizing */
 th { text-align: left; color: var(--muted); padding: 15px 10px; border-bottom: 2px solid #eee; font-size: 14px; }
 td { padding: 15px 5px; border-bottom: 1px solid #eee; vertical-align: top; }
 
-/* COLUMN WIDTH RULES */
-th:nth-child(1), td:nth-child(1) { width: 90px; } /* Edit Button */
-th:nth-child(2), td:nth-child(2) { width: 95px; } /* DATE (Small/Blue Area) */
-th:nth-child(3), td:nth-child(3) { width: auto; } /* ITEM (Large/Yellow Area) */
-th:nth-child(4), td:nth-child(4) { width: 110px; } /* Category */
-th:nth-child(5), td:nth-child(5) { width: 90px; }  /* Amount */
-th:nth-child(6), td:nth-child(6) { width: 80px; }  /* Remove Button */
+/* COLUMN WIDTHS: Shrinks Date, Expands Item */
+th:nth-child(1), td:nth-child(1) { width: 80px; }  /* Edit/Save Button */
+th:nth-child(2), td:nth-child(2) { width: 90px; }  /* Date Box (Smaller) */
+th:nth-child(3), td:nth-child(3) { width: auto; }  /* Item Box (Larger) */
+th:nth-child(4), td:nth-child(4) { width: 100px; } /* Category */
+th:nth-child(5), td:nth-child(5) { width: 85px; }  /* Amount */
+th:nth-child(6), td:nth-child(6) { width: 50px; }  /* Remove Button */
 
 .action-btn {
-    width: 80px; 
+    width: 70px; 
     height: 36px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .edit-btn { background: var(--pastel-blue); color: #111; }
-.remove-btn { background: var(--pastel-red); color: #111; font-size: 20px; }
+.remove-btn { background: var(--pastel-red); color: #111; font-size: 18px; }
 .save-btn { background: var(--pastel-green); color: #111; }
 
 .edit-input { 
@@ -137,15 +128,15 @@ th:nth-child(6), td:nth-child(6) { width: 80px; }  /* Remove Button */
     border-radius: 4px; 
     border: 1px solid #ccc; 
     font-family: 'Inter', sans-serif; 
-    font-size: 16px !important; /* Prevents auto-zoom on iPhone */
+    font-size: 16px !important; /* Prevents auto-zoom on mobile */
 }
 
-/* Item Text Wrap and Cap at 3 lines */
+/* Wrapping for long item names */
 .wrap-text {
     white-space: normal;
     word-break: break-word;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 3; /* Caps at 3 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.2em;
@@ -157,8 +148,5 @@ th:nth-child(6), td:nth-child(6) { width: 80px; }  /* Remove Button */
     aside { grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 100px; }
     aside button { height: 35px; font-size: 11px; }
     nav h2 { font-size: 32px; }
-    th, td { font-size: 12px; padding: 10px 2px; }
-    .action-btn { width: 50px; height: 30px; font-size: 11px; }
-    
-    input, select, textarea { font-size: 16px !important; }
+    th, td { font-size: 11px; padding: 10px 2px; }
 }
