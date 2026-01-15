@@ -21,12 +21,8 @@ let currentMonthNum = String(currentRealDate.getMonth() + 1).padStart(2, '0');
 let currentMonthKey = `${currentYear}-${currentMonthNum}`;
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-// --- AUTH LOGIC ---
 function openAuth() {
-    if (userAccount) { 
-        if(confirm("Are you sure you want to logout?")) logout(); 
-        return; 
-    }
+    if (userAccount) { if(confirm("Logout?")) logout(); return; }
     showLoginForm();
     modalOverlay.style.display = 'flex';
 }
@@ -42,7 +38,6 @@ function showRegisterForm(error = "") {
 async function handleLogin() {
     const u = document.getElementById('l-name').value;
     const p = document.getElementById('l-pass').value;
-    // Updated with API_URL
     const res = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,12 +47,8 @@ async function handleLogin() {
     if (res.ok) {
         userAccount = { username: data.username };
         localStorage.setItem('userAccount', JSON.stringify(userAccount));
-        updateAuthUI();
-        loadMonth(currentMonthKey);
-        modalOverlay.style.display = 'none';
-    } else {
-        showLoginForm(data.message);
-    }
+        updateAuthUI(); loadMonth(currentMonthKey); modalOverlay.style.display = 'none';
+    } else { showLoginForm(data.message); }
 }
 
 async function handleRegister() {
@@ -65,7 +56,6 @@ async function handleRegister() {
     const p = document.getElementById('r-pass').value;
     const c = document.getElementById('r-conf').value;
     if (p !== c) return showRegisterForm("Passwords don't match");
-    // Updated with API_URL
     const res = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -75,32 +65,13 @@ async function handleRegister() {
     if (res.ok) {
         userAccount = { username: data.username };
         localStorage.setItem('userAccount', JSON.stringify(userAccount));
-        updateAuthUI();
-        loadMonth(currentMonthKey);
-        modalOverlay.style.display = 'none';
-    } else {
-        showRegisterForm(data.message);
-    }
+        updateAuthUI(); loadMonth(currentMonthKey); modalOverlay.style.display = 'none';
+    } else { showRegisterForm(data.message); }
 }
 
-function logout() {
-    userAccount = null;
-    localStorage.removeItem('userAccount');
-    updateAuthUI();
-    loadMonth(currentMonthKey);
-}
+function logout() { userAccount = null; localStorage.removeItem('userAccount'); updateAuthUI(); loadMonth(currentMonthKey); }
+function updateAuthUI() { authBtn.innerText = userAccount ? "Logout" : "Login"; welcomeMsg.innerText = userAccount ? `Welcome, ${userAccount.username}` : ""; }
 
-function updateAuthUI() {
-    if (userAccount) {
-        authBtn.innerText = "Logout";
-        welcomeMsg.innerText = `Welcome, ${userAccount.username}`;
-    } else {
-        authBtn.innerText = "Login";
-        welcomeMsg.innerText = "";
-    }
-}
-
-// --- DATA LOGIC ---
 function initYearDropdown() {
     yearSelect.innerHTML = '';
     for (let y = startYear; y <= endYear; y++) {
@@ -110,12 +81,7 @@ function initYearDropdown() {
     }
 }
 
-function changeYear(y) {
-    currentYear = y;
-    currentMonthKey = `${y}-${currentMonthNum}`;
-    buildMonthButtons();
-    loadMonth(currentMonthKey);
-}
+function changeYear(y) { currentYear = y; currentMonthKey = `${y}-${currentMonthNum}`; buildMonthButtons(); loadMonth(currentMonthKey); }
 
 function buildMonthButtons() {
     monthsEl.innerHTML = '';
@@ -134,103 +100,71 @@ async function submitExpense() {
     const category = document.getElementById('category').value;
     const amount = parseFloat(document.getElementById('amount').value) || 0;
     if (amount <= 0) return;
-
-    const [selYear, selMonth] = currentMonthKey.split('-');
-    const selectedDate = new Date(selYear, parseInt(selMonth) - 1, 15, 12, 0, 0);
-
-    // Updated with API_URL
+    const [y, m] = currentMonthKey.split('-');
+    const date = new Date(y, m - 1, 15, 12, 0, 0);
     await fetch(`${API_URL}/api/expenses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            username: userAccount.username, 
-            expense: { name, category, amount, date: selectedDate } 
-        })
+        body: JSON.stringify({ username: userAccount.username, expense: { name, category, amount, date } })
     });
     loadMonth(currentMonthKey);
-    document.getElementById('amount').value = '';
-    document.getElementById('name').value = '';
+    document.getElementById('amount').value = ''; document.getElementById('name').value = '';
 }
 
 async function loadMonth(key, btn) {
     currentMonthKey = key;
-    const [selYear, selMonth] = key.split('-');
-    currentMonthNum = selMonth;
-    
-    document.getElementById('title').textContent = `${monthNames[parseInt(currentMonthNum)-1]} ${currentYear}`;
-    
+    const [y, m] = key.split('-');
+    currentMonthNum = m;
+    document.getElementById('title').textContent = `${monthNames[parseInt(m)-1]} ${y}`;
     document.querySelectorAll('aside button').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    else {
-        const buttons = monthsEl.querySelectorAll('button');
-        if(buttons[parseInt(currentMonthNum)-1]) buttons[parseInt(currentMonthNum)-1].classList.add('active');
-    }
-
-    if (!userAccount) {
-        rowsEl.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#999; padding:40px;">Please log in</td></tr>';
-        weeklyRowsEl.innerHTML = '';
-        return;
-    }
-
-    // Updated with API_URL
+    if (!userAccount) { rowsEl.innerHTML = '<tr><td colspan="6" style="text-align:center;">Login required</td></tr>'; return; }
     const res = await fetch(`${API_URL}/api/expenses/${userAccount.username}`);
     const expenses = await res.json();
-    
     const filtered = expenses.filter(e => {
         const d = new Date(e.date);
-        return d.getFullYear() === parseInt(selYear) && (d.getMonth() + 1) === parseInt(selMonth);
-    });
-
-    // CHRONOLOGICAL SORT
-    filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    rowsEl.innerHTML = '';
-    if (filtered.length === 0) rowsEl.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#999; padding:20px;">No entries</td></tr>';
-
+        return d.getFullYear() === parseInt(y) && (d.getMonth() + 1) === parseInt(m);
+    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+    rowsEl.innerHTML = filtered.length ? '' : '<tr><td colspan="6" style="text-align:center;">No entries</td></tr>';
     filtered.forEach((e) => {
         const realIndex = expenses.indexOf(e);
         const tr = document.createElement('tr');
         tr.setAttribute('data-id', realIndex);
         tr.innerHTML = `
             <td><button class="action-btn edit-btn" onclick='editRow(${realIndex}, ${JSON.stringify(e)})'>Edit</button></td>
-            <td>${new Date(e.date).toLocaleDateString()}</td>
-            <td>${e.name}</td>
+            <td>${new Date(e.date).toLocaleDateString([], {month:'numeric', day:'numeric'})}</td>
+            <td><div class="wrap-text">${e.name}</div></td>
             <td>${e.category}</td>
             <td style="text-align:right; font-weight:700;">$${e.amount.toFixed(2)}</td>
-            <td style="text-align:center;"><button class="action-btn remove-btn" onclick="removeExpense(${realIndex})">-</button></td>
+            <td style="text-align:center;"><button class="action-btn remove-btn" onclick="removeExpense(${realIndex})">×</button></td>
         `;
         rowsEl.appendChild(tr);
     });
     updateWeeklyStats(filtered);
 }
 
-// function editRow(index, e) {
-//     const tr = document.querySelector(`tr[data-id="${index}"]`);
-//     const d = new Date(e.date);
-//     const dateVal = d.toISOString().split('T')[0];
-    
-//     tr.innerHTML = `
-//         <td><button class="action-btn save-btn" onclick="saveRow(${index})">Save</button></td>
-//         <td><input type="date" class="edit-input" id="edit-date-${index}" value="${dateVal}"></td>
-//         <td><input type="text" class="edit-input" id="edit-name-${index}" value="${e.name}"></td>
-//         <td><select class="edit-input" id="edit-cat-${index}"><option ${e.category==='Grocery'?'selected':''}>Grocery</option><option ${e.category==='Eating Out'?'selected':''}>Eating Out</option><option ${e.category==='Object'?'selected':''}>Object</option><option ${e.category==='Gas'?'selected':''}>Gas</option><option ${e.category==='Bills'?'selected':''}>Bills</option></select></td>
-//         <td><input type="number" class="edit-input" id="edit-amt-${index}" value="${e.amount}"></td>
-//         <td></td>
-//     `;
-// }
+function editRow(index, e) {
+    const tr = document.querySelector(`tr[data-id="${index}"]`);
+    const dateVal = new Date(e.date).toISOString().split('T')[0];
+    tr.innerHTML = `
+        <td><button class="action-btn save-btn" onclick="saveRow(${index})">Save</button></td>
+        <td><input type="date" class="edit-input" id="edit-date-${index}" value="${dateVal}"></td>
+        <td><input type="text" class="edit-input" id="edit-name-${index}" maxlength="20" value="${e.name}"></td>
+        <td><select class="edit-input" id="edit-cat-${index}"><option ${e.category==='Grocery'?'selected':''}>Grocery</option><option ${e.category==='Eating Out'?'selected':''}>Eating Out</option><option ${e.category==='Object'?'selected':''}>Object</option><option ${e.category==='Gas'?'selected':''}>Gas</option><option ${e.category==='Bills'?'selected':''}>Bills</option></select></td>
+        <td><input type="number" class="edit-input" id="edit-amt-${index}" value="${e.amount}"></td>
+        <td></td>
+    `;
+}
 
 async function saveRow(index) {
     const dateInput = document.getElementById(`edit-date-${index}`).value;
     const [y, m, d] = dateInput.split('-').map(Number);
-    const correctedDate = new Date(y, m - 1, d, 12, 0, 0); 
-
     const updated = {
         name: document.getElementById(`edit-name-${index}`).value,
         category: document.getElementById(`edit-cat-${index}`).value,
         amount: parseFloat(document.getElementById(`edit-amt-${index}`).value),
-        date: correctedDate
+        date: new Date(y, m - 1, d, 12, 0, 0)
     };
-    // Updated with API_URL
     await fetch(`${API_URL}/api/expenses/${userAccount.username}/${index}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -240,8 +174,7 @@ async function saveRow(index) {
 }
 
 async function removeExpense(idx) {
-    if (confirm("Are you sure?")) {
-        // Updated with API_URL
+    if (confirm("Delete?")) {
         await fetch(`${API_URL}/api/expenses/${userAccount.username}/${idx}`, { method: 'DELETE' });
         loadMonth(currentMonthKey);
     }
@@ -259,6 +192,6 @@ function updateWeeklyStats(data) {
     });
 }
 
-setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
+setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 updateAuthUI(); initYearDropdown(); buildMonthButtons(); loadMonth(currentMonthKey);
 window.onclick = (e) => { if (e.target == modalOverlay) modalOverlay.style.display = 'none'; }
