@@ -179,4 +179,14 @@ td { padding: 15px 10px; border-bottom: 1px solid #eee; vertical-align: middle; 
     
     #year-select { left: 15px; top: 15px; }
     .login-btn { right: 15px; top: 15px; }
-}
+
+    /* This prevents the iPhone auto-zoom on inputs */
+    input, 
+    select, 
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* If you want the text to look slightly smaller but still prevent zoom, 
+    you can use a scale trick, but the 16px rule above is the most reliable way. */
+    }
