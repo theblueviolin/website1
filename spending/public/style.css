@@ -3,6 +3,7 @@
     --muted: #555;
     --card: #f4f4f4;
     --max-width: 1100px;
+    /* Pastel Colors */
     --pastel-blue: #d0ebf7;
     --pastel-red: #f9d8de;
     --pastel-green: #defde3;
@@ -32,6 +33,7 @@ body {
     min-height: 125vh;
 }
 
+/* TOP NAV & AUTH */
 #year-select {
     position: absolute;
     top: 20px; left: 40px;
@@ -46,166 +48,145 @@ body {
 .login-btn {
     position: absolute;
     top: 20px; right: 40px;
-    background: #111;
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 10px;
-    font-weight: 600;
+    background: #000; color: #fff;
+    border: none; padding: 10px 25px;
+    border-radius: 12px;
+    font-weight: 700;
     cursor: pointer;
-    border: none;
     z-index: 100;
 }
 
+/* MODAL */
+#modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: #fff; padding: 40px;
+    border-radius: 24px; width: 420px;
+    text-align: center;
+}
+
+.modal-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; }
+.modal-box button { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+.modal-link { display: block; margin-top: 15px; font-size: 14px; color: #666; text-decoration: underline; cursor: pointer; }
+
+/* LAYOUT */
+aside, main { width: 100%; max-width: var(--max-width); padding: 0 40px; }
 aside {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    width: 90%;
-    max-width: var(--max-width);
-    gap: 10px;
-    margin-top: 100px;
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    gap: 8px; margin-top: 80px; margin-bottom: 20px;
 }
+aside button { height: 44px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; }
+aside button:nth-child(1), aside button:nth-child(2), aside button:nth-child(3) { background: var(--pastel-blue); }
+aside button:nth-child(4), aside button:nth-child(5), aside button:nth-child(6) { background: var(--pastel-red); }
+aside button:nth-child(7), aside button:nth-child(8), aside button:nth-child(9) { background: #ffe9d1; }
+aside button:nth-child(10), aside button:nth-child(11), aside button:nth-child(12) { background: var(--pastel-green); }
+aside button.active { outline: 2px solid var(--ink); font-weight: bold; }
 
-aside button {
-    background: var(--pastel-blue);
-    border: 1px solid rgba(0,0,0,0.05);
-    padding: 15px 0;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-    opacity: 0.6;
-}
+nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+nav h2 { font-size: 64px; font-family: 'Source Serif 4', serif; margin: 0; }
+#clock { font-size: 18px; color: var(--muted); }
 
-aside button.active {
-    opacity: 1;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
-}
+.card { background: var(--card); border-radius: 20px; padding: 40px; margin-bottom: 40px; }
+#expense-form { display: flex; flex-wrap: wrap; gap: 20px; }
+#expense-form select, #expense-form input { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 15px; flex: 1; }
+#expense-form button { background: #000; color: #fff; border: none; border-radius: 15px; padding: 15px; font-weight: 700; flex: 1; cursor: pointer; }
 
-main {
-    width: 90%;
-    max-width: var(--max-width);
-    margin-top: 40px;
-}
+/* WEEKLY SECTION */
+#weekly-stats { background: #fff !important; border: 1px solid #eee; }
+.weekly-table { width: 100%; border-collapse: collapse; }
+.weekly-table tr { border-bottom: 1px solid #eee; }
+.weekly-table tr:last-child { border-bottom: none; }
+.weekly-table td { padding: 15px 0; }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 40px;
-}
+/* TABLE & BUTTONS */
+.table-wrapper { width: 100%; margin-bottom: 60px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; color: var(--muted); padding: 15px 10px; border-bottom: 2px solid #eee; }
+td { padding: 15px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
 
-nav h2 {
-    font-family: 'Source Serif 4', serif;
-    font-size: 64px;
-    margin: 0;
-}
-
-#clock { font-size: 24px; color: #444; font-weight: 500; }
-
-.card {
-    background: var(--card);
-    padding: 40px;
-    border-radius: 30px;
-    margin-bottom: 30px;
-}
-
-#expense-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#expense-form input, #expense-form select, #expense-form button {
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid #ddd;
-    font-size: 18px;
-    font-family: inherit;
-}
-
-#expense-form button {
-    background: #111;
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 20px 10px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-    vertical-align: middle;
-}
-
-th { color: #888; font-weight: 500; font-size: 16px; }
-
+/* UNIFORM ACTION BUTTONS */
 .action-btn {
-    padding: 8px 12px;
-    border-radius: 6px;
+    width: 80px; 
+    height: 36px;
     border: none;
-    font-weight: 600;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
 }
+.action-btn:hover { opacity: 0.8; }
 
 .edit-btn { background: var(--pastel-blue); color: #111; }
 .remove-btn { background: var(--pastel-red); color: #111; font-size: 20px; }
 .save-btn { background: var(--pastel-green); color: #111; }
 
-/* REVISED EDIT STYLES */
 .edit-input { 
-    width: 100%; 
-    padding: 8px; 
-    border-radius: 4px; 
-    border: 1px solid #ccc; 
-    font-family: 'Inter', sans-serif; 
-    font-size: 16px !important; /* Prevents auto-zoom */
-}
-
-.edit-date-col { width: 15%; }
-.edit-item-col { width: 45%; }
-.edit-cat-col  { width: 20%; }
-.edit-amt-col  { width: 20%; }
-
-/* Wrap text for long names, capped at ~3 lines */
-.wrap-text {
-    white-space: normal;
-    word-break: break-word;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.2em;
-    max-height: 3.6em; 
+    width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Inter', sans-serif; font-size: 14px;
 }
 
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 600px) {
-    #site-wrapper { transform: scale(1); width: 100%; margin: 0; left: 0; }
+    #site-wrapper { 
+        transform: scale(1); 
+        width: 100%; 
+        margin: 0; 
+        left: 0; 
+    }
+    
     aside, main { padding: 0 15px; }
-    aside { grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 100px; }
-    aside button { height: 35px; font-size: 11px; }
-    nav h2 { font-size: 32px; }
-    th, td { padding: 10px 4px; font-size: 13px; }
-}
 
-/* AUTH MODAL */
-#modal-overlay {
-    position: fixed; top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;
-}
-.modal-box {
-    background: #fff; padding: 40px; border-radius: 20px; width: 90%; max-width: 400px;
-    display: flex; flex-direction: column; gap: 15px;
-}
-.modal-box input { padding: 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; }
-.modal-box button { padding: 15px; border-radius: 10px; background: #111; color: #fff; font-weight: 700; border: none; cursor: pointer; }
-.modal-link { text-align: center; color: #888; cursor: pointer; text-decoration: underline; font-size: 14px; }
+    /* 2 Rows for Months */
+    aside { 
+        grid-template-columns: repeat(6, 1fr); 
+        gap: 5px; 
+        margin-top: 100px;
+    }
+    
+    aside button {
+        height: 35px;
+        font-size: 11px;
+    }
+
+    nav h2 { font-size: 32px; }
+    
+    /* Shrink table content to fit screen */
+    th, td { 
+        padding: 10px 4px; 
+        font-size: 13px; 
+    }
+    
+    .action-btn { 
+        width: 45px; 
+        height: 30px; 
+        font-size: 11px;
+    }
+    
+    .remove-btn { font-size: 16px; }
+
+    #expense-form { flex-direction: column; }
+    
+    #year-select { left: 15px; top: 15px; }
+    .login-btn { right: 15px; top: 15px; }
+
+    /* This prevents the iPhone auto-zoom on inputs */
+    input, 
+    select, 
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* If you want the text to look slightly smaller but still prevent zoom, 
+    you can use a scale trick, but the 16px rule above is the most reliable way. */
+    }
