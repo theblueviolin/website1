@@ -189,4 +189,19 @@ td { padding: 15px 10px; border-bottom: 1px solid #eee; vertical-align: middle; 
 
     /* If you want the text to look slightly smaller but still prevent zoom, 
     you can use a scale trick, but the 16px rule above is the most reliable way. */
+
+    /* Fix column widths: Shrink Date, Expand Item */
+    th:nth-child(2), td:nth-child(2) { 
+        width: 80px; /* Small fixed width for Date */
     }
+
+    th:nth-child(3), td:nth-child(3) { 
+        width: auto; /* Item box takes up all remaining space */
+    }
+
+    /* Ensure the date input itself doesn't overflow its small box */
+    .edit-input[type="date"] {
+        padding: 2px;
+        font-size: 13px; /* Slightly smaller font for the date picker only */
+    }
+}

@@ -212,7 +212,7 @@ function editRow(index, e) {
     tr.innerHTML = `
         <td><button class="action-btn save-btn" onclick="saveRow(${index})">Save</button></td>
         <td><input type="date" class="edit-input" id="edit-date-${index}" value="${dateVal}"></td>
-        <td><input type="text" class="edit-input" id="edit-name-${index}" value="${e.name}"></td>
+        <td><textarea class="edit-input" id="edit-name-${index}" style="height: 60px; resize: none;">${e.name}</textarea></td>
         <td><select class="edit-input" id="edit-cat-${index}"><option ${e.category==='Grocery'?'selected':''}>Grocery</option><option ${e.category==='Eating Out'?'selected':''}>Eating Out</option><option ${e.category==='Object'?'selected':''}>Object</option><option ${e.category==='Gas'?'selected':''}>Gas</option><option ${e.category==='Bills'?'selected':''}>Bills</option></select></td>
         <td><input type="number" class="edit-input" id="edit-amt-${index}" value="${e.amount}"></td>
         <td></td>
