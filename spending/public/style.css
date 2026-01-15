@@ -3,6 +3,7 @@
     --muted: #555;
     --card: #f4f4f4;
     --max-width: 1100px;
+    /* Pastel Colors */
     --pastel-blue: #d0ebf7;
     --pastel-red: #f9d8de;
     --pastel-green: #defde3;
@@ -15,7 +16,7 @@ body {
     background: #fff;
     color: var(--ink);
     font-family: 'Inter', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
     width: 100%;
 }
 
@@ -32,6 +33,7 @@ body {
     min-height: 125vh;
 }
 
+/* TOP NAV & AUTH */
 #year-select {
     position: absolute;
     top: 20px; left: 40px;
@@ -54,13 +56,39 @@ body {
     z-index: 100;
 }
 
+/* MODAL */
+#modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: #fff; padding: 40px;
+    border-radius: 24px; width: 420px;
+    text-align: center;
+}
+
+.modal-box input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; }
+.modal-box button { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+.modal-link { display: block; margin-top: 15px; font-size: 14px; color: #666; text-decoration: underline; cursor: pointer; }
+
+/* LAYOUT */
 aside, main { width: 100%; max-width: var(--max-width); padding: 0 40px; }
 aside {
     display: grid; grid-template-columns: repeat(12, 1fr);
     gap: 8px; margin-top: 80px; margin-bottom: 20px;
 }
-aside button { height: 44px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; background: var(--pastel-blue); opacity: 0.7; }
-aside button.active { opacity: 1; outline: 2px solid var(--ink); font-weight: bold; }
+aside button { height: 44px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; }
+aside button:nth-child(1), aside button:nth-child(2), aside button:nth-child(3) { background: var(--pastel-blue); }
+aside button:nth-child(4), aside button:nth-child(5), aside button:nth-child(6) { background: var(--pastel-red); }
+aside button:nth-child(7), aside button:nth-child(8), aside button:nth-child(9) { background: #ffe9d1; }
+aside button:nth-child(10), aside button:nth-child(11), aside button:nth-child(12) { background: var(--pastel-green); }
+aside button.active { outline: 2px solid var(--ink); font-weight: bold; }
 
 nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
 nav h2 { font-size: 64px; font-family: 'Source Serif 4', serif; margin: 0; }
@@ -71,53 +99,109 @@ nav h2 { font-size: 64px; font-family: 'Source Serif 4', serif; margin: 0; }
 #expense-form select, #expense-form input { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 15px; flex: 1; }
 #expense-form button { background: #000; color: #fff; border: none; border-radius: 15px; padding: 15px; font-weight: 700; flex: 1; cursor: pointer; }
 
-/* TABLE REPAIR */
-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-th { text-align: left; color: var(--muted); padding: 10px; border-bottom: 2px solid #eee; font-size: 12px; text-transform: uppercase; }
-td { padding: 10px 5px; border-bottom: 1px solid #eee; vertical-align: middle; }
+/* WEEKLY SECTION */
+#weekly-stats { background: #fff !important; border: 1px solid #eee; }
+.weekly-table { width: 100%; border-collapse: collapse; }
+.weekly-table tr { border-bottom: 1px solid #eee; }
+.weekly-table tr:last-child { border-bottom: none; }
+.weekly-table td { padding: 15px 0; }
 
-/* Desktop Widths */
-th:nth-child(1), td:nth-child(1) { width: 75px; }
-th:nth-child(2), td:nth-child(2) { width: 110px; }
-th:nth-child(3), td:nth-child(3) { width: auto; }
-th:nth-child(4), td:nth-child(4) { width: 120px; }
-th:nth-child(5), td:nth-child(5) { width: 100px; }
-th:nth-child(6), td:nth-child(6) { width: 50px; }
+/* TABLE & BUTTONS */
+.table-wrapper { width: 100%; margin-bottom: 60px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; color: var(--muted); padding: 15px 10px; border-bottom: 2px solid #eee; }
+td { padding: 15px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
 
-.action-btn { width: 100%; height: 32px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
-.edit-btn { background: var(--pastel-blue); }
-.remove-btn { background: var(--pastel-red); font-size: 16px; }
-.save-btn { background: var(--pastel-green); }
+/* UNIFORM ACTION BUTTONS */
+.action-btn {
+    width: 80px; 
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+.action-btn:hover { opacity: 0.8; }
 
-.edit-input { width: 100%; padding: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 16px !important; }
+.edit-btn { background: var(--pastel-blue); color: #111; }
+.remove-btn { background: var(--pastel-red); color: #111; font-size: 20px; }
+.save-btn { background: var(--pastel-green); color: #111; }
 
-.wrap-text {
-    white-space: normal;
-    word-break: break-word;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.2;
+.edit-input { 
+    width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #ccc; font-family: 'Inter', sans-serif; font-size: 14px;
 }
 
-/* MOBILE FIX */
+/* MOBILE RESPONSIVENESS */
 @media (max-width: 600px) {
-    #site-wrapper { transform: scale(1); width: 100%; margin: 0; left: 0; }
-    aside, main { padding: 0 10px; }
-    aside { grid-template-columns: repeat(6, 1fr); margin-top: 100px; }
-    nav h2 { font-size: 32px; }
-    th, td { font-size: 11px; padding: 8px 2px; }
-
-    /* The "One Line" column widths */
-    th:nth-child(1), td:nth-child(1) { width: 45px; } 
-    th:nth-child(2), td:nth-child(2) { width: 65px; } 
-    th:nth-child(4), td:nth-child(4) { width: 75px; } 
-    th:nth-child(5), td:nth-child(5) { width: 65px; }
-    th:nth-child(6), td:nth-child(6) { width: 35px; }
+    #site-wrapper { 
+        transform: scale(1); 
+        width: 100%; 
+        margin: 0; 
+        left: 0; 
+    }
     
-    .action-btn { font-size: 9px; height: 28px; }
-}
+    aside, main { padding: 0 15px; }
 
-#modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-.modal-box { background: #fff; padding: 30px; border-radius: 20px; width: 350px; text-align: center; }
+    /* 2 Rows for Months */
+    aside { 
+        grid-template-columns: repeat(6, 1fr); 
+        gap: 5px; 
+        margin-top: 100px;
+    }
+    
+    aside button {
+        height: 35px;
+        font-size: 11px;
+    }
+
+    nav h2 { font-size: 32px; }
+    
+    /* Shrink table content to fit screen */
+    th, td { 
+        padding: 10px 4px; 
+        font-size: 13px; 
+    }
+    
+    .action-btn { 
+        width: 45px; 
+        height: 30px; 
+        font-size: 11px;
+    }
+    
+    .remove-btn { font-size: 16px; }
+
+    #expense-form { flex-direction: column; }
+    
+    #year-select { left: 15px; top: 15px; }
+    .login-btn { right: 15px; top: 15px; }
+
+    /* This prevents the iPhone auto-zoom on inputs */
+    input, 
+    select, 
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* If you want the text to look slightly smaller but still prevent zoom, 
+    you can use a scale trick, but the 16px rule above is the most reliable way. */
+
+    /* Fix column widths: Shrink Date, Expand Item */
+    th:nth-child(2), td:nth-child(2) { 
+        width: 80px; /* Small fixed width for Date */
+    }
+
+    th:nth-child(3), td:nth-child(3) { 
+        width: auto; /* Item box takes up all remaining space */
+    }
+
+    /* Ensure the date input itself doesn't overflow its small box */
+    .edit-input[type="date"] {
+        padding: 2px;
+        font-size: 13px; /* Slightly smaller font for the date picker only */
+    }
+    }
