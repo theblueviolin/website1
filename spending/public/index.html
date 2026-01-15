@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    hopefully fixed
     <meta charset="UTF-8">
-    yo what up gang
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Spending Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>      
+<body>
 
 <div id="modal-overlay">
     <div class="modal-box" id="modal-content"></div>
@@ -17,56 +17,37 @@
 <div id="site-wrapper">
     <select id="year-select" onchange="changeYear(this.value)"></select>
     <button class="login-btn" id="auth-btn" onclick="openAuth()">Login</button>
-
     <aside id="months"></aside>
-
     <main>
         <nav>
             <div>
                 <h2 id="title">--</h2>
-                <div id="welcome-msg" style="font-size: 18px; color: #888; margin-top: 5px;"></div>
+                <div id="welcome-msg" style="font-size: 14px; color: #888;"></div>
             </div>
             <div id="clock">--:--:--</div>
         </nav>
 
         <div class="card">
             <div id="expense-form">
-                <select id="category">
-                    <option value="Grocery">Grocery</option>
-                    <option value="Eating Out">Eating Out</option>
-                    <option value="Object">Object</option>
-                    <option value="Gas">Gas</option>
-                    <option value="Bills">Bills</option>
-                </select>
-                <input id="amount" type="number" placeholder="Amount ($)">
-                <input id="name" placeholder="Name (optional)">
-                <button onclick="submitExpense()">Add</button>
+                <div style="display:flex; gap:10px;">
+                    <select id="category" style="flex:1;"><option>Grocery</option><option>Eating Out</option><option>Object</option><option>Gas</option><option>Bills</option></select>
+                    <input id="amount" type="number" placeholder="$" style="flex:1;">
+                </div>
+                <input id="name" placeholder="Item Name (max 20)" maxlength="20">
+                <button onclick="submitExpense()">Add Entry</button>
             </div>
         </div>
 
-        <div class="card" id="weekly-stats">
-            <h3 style="font-family: 'Source Serif 4', serif; font-size: 32px; margin-bottom: 20px;">Weekly Spending</h3>
-            <table class="weekly-table">
-                <thead>
-                    <tr>
-                        <th style="text-align: left;">Week</th>
-                        <th style="text-align: right;">Total ($)</th>
-                    </tr>
-                </thead>
-                <tbody id="weekly-rows"></tbody>
-            </table>
-        </div>
-
         <div class="table-wrapper">
-            <h3 style="font-family: 'Source Serif 4', serif; font-size: 28px; margin-bottom: 10px;">Detailed Entries</h3>
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 80px;"></th> <th>Date</th>
+                        <th>Edit</th>
+                        <th>Date</th>
                         <th>Item</th>
-                        <th>Category</th>
-                        <th style="text-align: right;">Amount ($)</th>
-                        <th style="width: 80px; text-align: center;">Remove</th>
+                        <th>Cat</th>
+                        <th style="text-align:right;">$</th>
+                        <th style="text-align:center;">X</th>
                     </tr>
                 </thead>
                 <tbody id="rows"></tbody>
@@ -74,7 +55,6 @@
         </div>
     </main>
 </div>
-
 <script src="script.js"></script>
 </body>
 </html>
