@@ -42,6 +42,7 @@ function showRegisterForm(error = "") {
 async function handleLogin() {
     const u = document.getElementById('l-name').value;
     const p = document.getElementById('l-pass').value;
+    // Updated with API_URL
     const res = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,6 +65,7 @@ async function handleRegister() {
     const p = document.getElementById('r-pass').value;
     const c = document.getElementById('r-conf').value;
     if (p !== c) return showRegisterForm("Passwords don't match");
+    // Updated with API_URL
     const res = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -136,6 +138,7 @@ async function submitExpense() {
     const [selYear, selMonth] = currentMonthKey.split('-');
     const selectedDate = new Date(selYear, parseInt(selMonth) - 1, 15, 12, 0, 0);
 
+    // Updated with API_URL
     await fetch(`${API_URL}/api/expenses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -165,9 +168,11 @@ async function loadMonth(key, btn) {
 
     if (!userAccount) {
         rowsEl.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#999; padding:40px;">Please log in</td></tr>';
+        weeklyRowsEl.innerHTML = '';
         return;
     }
 
+    // Updated with API_URL
     const res = await fetch(`${API_URL}/api/expenses/${userAccount.username}`);
     const expenses = await res.json();
     
@@ -176,6 +181,7 @@ async function loadMonth(key, btn) {
         return d.getFullYear() === parseInt(selYear) && (d.getMonth() + 1) === parseInt(selMonth);
     });
 
+    // CHRONOLOGICAL SORT
     filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     rowsEl.innerHTML = '';
@@ -188,7 +194,7 @@ async function loadMonth(key, btn) {
         tr.innerHTML = `
             <td><button class="action-btn edit-btn" onclick='editRow(${realIndex}, ${JSON.stringify(e)})'>Edit</button></td>
             <td>${new Date(e.date).toLocaleDateString()}</td>
-            <td><div class="wrap-text">${e.name}</div></td>
+            <td>${e.name}</td>
             <td>${e.category}</td>
             <td style="text-align:right; font-weight:700;">$${e.amount.toFixed(2)}</td>
             <td style="text-align:center;"><button class="action-btn remove-btn" onclick="removeExpense(${realIndex})">-</button></td>
@@ -198,20 +204,20 @@ async function loadMonth(key, btn) {
     updateWeeklyStats(filtered);
 }
 
-function editRow(index, e) {
-    const tr = document.querySelector(`tr[data-id="${index}"]`);
-    const d = new Date(e.date);
-    const dateVal = d.toISOString().split('T')[0];
+// function editRow(index, e) {
+//     const tr = document.querySelector(`tr[data-id="${index}"]`);
+//     const d = new Date(e.date);
+//     const dateVal = d.toISOString().split('T')[0];
     
-    tr.innerHTML = `
-        <td><button class="action-btn save-btn" onclick="saveRow(${index})">Save</button></td>
-        <td><input type="date" class="edit-input" id="edit-date-${index}" value="${dateVal}"></td>
-        <td><textarea class="edit-input wrap-text" id="edit-name-${index}" maxlength="20" rows="2">${e.name}</textarea></td>
-        <td><select class="edit-input" id="edit-cat-${index}"><option ${e.category==='Grocery'?'selected':''}>Grocery</option><option ${e.category==='Eating Out'?'selected':''}>Eating Out</option><option ${e.category==='Object'?'selected':''}>Object</option><option ${e.category==='Gas'?'selected':''}>Gas</option><option ${e.category==='Bills'?'selected':''}>Bills</option></select></td>
-        <td><input type="number" class="edit-input" id="edit-amt-${index}" value="${e.amount}"></td>
-        <td></td>
-    `;
-}
+//     tr.innerHTML = `
+//         <td><button class="action-btn save-btn" onclick="saveRow(${index})">Save</button></td>
+//         <td><input type="date" class="edit-input" id="edit-date-${index}" value="${dateVal}"></td>
+//         <td><input type="text" class="edit-input" id="edit-name-${index}" value="${e.name}"></td>
+//         <td><select class="edit-input" id="edit-cat-${index}"><option ${e.category==='Grocery'?'selected':''}>Grocery</option><option ${e.category==='Eating Out'?'selected':''}>Eating Out</option><option ${e.category==='Object'?'selected':''}>Object</option><option ${e.category==='Gas'?'selected':''}>Gas</option><option ${e.category==='Bills'?'selected':''}>Bills</option></select></td>
+//         <td><input type="number" class="edit-input" id="edit-amt-${index}" value="${e.amount}"></td>
+//         <td></td>
+//     `;
+// }
 
 async function saveRow(index) {
     const dateInput = document.getElementById(`edit-date-${index}`).value;
@@ -224,6 +230,7 @@ async function saveRow(index) {
         amount: parseFloat(document.getElementById(`edit-amt-${index}`).value),
         date: correctedDate
     };
+    // Updated with API_URL
     await fetch(`${API_URL}/api/expenses/${userAccount.username}/${index}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -234,6 +241,7 @@ async function saveRow(index) {
 
 async function removeExpense(idx) {
     if (confirm("Are you sure?")) {
+        // Updated with API_URL
         await fetch(`${API_URL}/api/expenses/${userAccount.username}/${idx}`, { method: 'DELETE' });
         loadMonth(currentMonthKey);
     }
